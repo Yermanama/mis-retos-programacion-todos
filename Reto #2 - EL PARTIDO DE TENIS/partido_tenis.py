@@ -20,55 +20,51 @@ Consulta las reglas del juego si tienes dudas sobre el sistema de puntos.
 #En realidad, las condiciones para ganar son si un jugador ha llegado a 4 Y hay una diferencia de dos puntos entre ellos
 
 
-counter1 = 0
-counter2 = 0
-secuencia = ["P1", "P1", "P2", "P2", "P1", "P2", "P1", "P1"]
 
-def iteracion_secuencia(p1_puntuacion, p2_puntuacion, counter1, counter2, secuencia):
+secuencia_prueba = ["P1", "P1", "P2", "P2", "P1", "P2", "P1", "P1"]
+
+
+def iteracion_secuencia(secuencia):
+    counter1 = 0
+    counter2 = 0
     for punto in secuencia:
-        if comprobar_si_ganado(counter1, counter2):
-            break
         if punto == "P1":
             counter1 += 1
-            imprimir_resultados(counter1, counter2)
-        else:
+        elif punto == "P2":
             counter2 += 1
-            imprimir_resultados(counter1, counter2)
+
+        if comprobar_si_ganado(counter1, counter2):
+            break
+
+        print(imprimir_resultados(counter1, counter2))
+
+
+
 
 def comprobar_si_ganado(counter1, counter2):
-    if counter1 <= 4 and (counter1 - counter2 >= 2):
+    if counter1 >= 4 and (counter1 - counter2 >= 2):
         print("Ha ganado el jugador P1")
         return True
-    elif counter2 <= 4 and (counter2 - counter1 >= 2):
+    elif counter2 >= 4 and (counter2 - counter1 >= 2):
         print("Ha ganado el jugador P2")
         return True
     else:
         return False
 
 def imprimir_resultados(counter1, counter2):
-    if counter1 == 0 and counter2 == 0:
-        return "Love-Love"
-    elif counter1 == 15 and counter2 == 0:
-        return "15-Love"
-    elif counter1 == 0 and counter2 == 0:
-        return "Love-15"
-    elif counter1 == 15 and counter2 == 15:
-        return "15-15"
-    elif counter1 == 30 and counter2 == 30:
-        return "30-30"
-    elif counter1 == 30 and counter2 == 15:
-        return "30-15"
-    elif counter1 == 15 and counter2 == 30:
-        return "15-30"
-    elif counter1 ==  and counter2 == 30:
-        return "15-30"
-    elif counter1 == 15 and counter2 == 30:
-        return "15-30"
-    elif counter1 == 15 and counter2 == 30:
-        return "15-30"
-    elif counter1 >= 3 and counter1 == counter2:
+    #Primero vamos a hacer un diccionario con los puntos pasados a lo que queremos traducir
+    puntos_a_terminos = {0:"Love", 1:"15", 2: "30", 3:"40"}
+
+    #Ahora vamos a gestionar las excepciones a los puntos de arriba
+    if counter1 >= 3 and counter1 == counter2:
         return "Deuce"
-    elif counter1 >= 3 and counter1 - counter2 == 1:
-        return "Ventaja P1"
-    elif counter2 >= 3 and counter2 - counter1 == 1:
-        return "Ventaja P2"
+    elif counter1 >= 4 and counter1-counter2 == 1:
+        return "Ventaja para P1"
+    elif counter2 >= 4 and counter2-counter1 == 1:
+        return "Ventaja para P2"
+    #Ahora vamos a hacer el return para los casos normales
+    return puntos_a_terminos[counter1] + " - " + puntos_a_terminos[counter2]
+
+
+if __name__ == "__main__":
+    iteracion_secuencia(secuencia= secuencia_prueba)
