@@ -11,35 +11,44 @@ import random
 import string
 
 
+def obtener_entrada_usuario(prompt, opciones_validas):
+    while True:
+        entrada = input(prompt).lower()
+        if entrada in opciones_validas:
+            return entrada
+        print(f"Entrada inválida. Opciones válidas son: {','.join(opciones_validas)}")
+
+
 def generacion_contrasena():
     numero_caracteres = 0
     mayusculas = ""
     numeros = ""
     simbolos = ""
 
-    while numero_caracteres not in list(range(8,16)):
-        numero_caracteres = int(
-            input("Dime un número del 8-16 para saber la longitud de tu contraseña.\n")
-        )
+    numero_caracteres = obtener_entrada_usuario(
+        "Dime un número entre el 8 y el 16, que va a ser la longtud de tu contraseña.",
+        map(str, range(8, 16)),
+    )
+    numero_caracteres = int(numero_caracteres)
 
-    while mayusculas != "no" and mayusculas != "si":
-        mayusculas = input(
-            "¿Quieres que se incluyan letras mayúsculas en tu contraseña?[Si/No]\n"
-        ).lower()
-
-    while numeros != "no" and numeros != "si":
-        numeros = input("¿Quieres que se incluyan números en tu contraseña?[Si/No]\n").lower()
-
-    while simbolos != "no" and simbolos != "si":
-        simbolos = input("¿Quieres que se incluyan números en tu contraseña?[Si/No]\n").lower()
+    mayusculas = obtener_entrada_usuario(
+        "¿Quieres que se incluyan letras mayúsculas en tu contraseña?[Si/No]\n",
+        ["si", "no"],
+    )
+    numeros = obtener_entrada_usuario(
+        "¿Quieres que se incluyan números en tu contraseña?[Si/No]\n", ["si", "no"]
+    )
+    simbolos = obtener_entrada_usuario(
+        "¿Quieres que se incluyan símbolos en tu contraseña?[Si/No]\n", ["si", "no"]
+    )
 
     posibilidades = []
-    posibilidades.append(list(string.ascii_lowercase))
-    if mayusculas.lower() == "si":
+    posibilidades.extend(list(string.ascii_lowercase))
+    if mayusculas == "si":
         posibilidades.extend(list(string.ascii_uppercase))
-    if numeros.lower() == "si":
+    if numeros == "si":
         posibilidades.extend(list(string.digits))
-    if simbolos.lower() == "si":
+    if simbolos == "si":
         posibilidades.extend(list(string.punctuation))
 
     contrasena = random.choices(posibilidades, k=numero_caracteres)
@@ -47,5 +56,6 @@ def generacion_contrasena():
 
     return contrasena
 
-if __name__ ==  "__main__":
+
+if __name__ == "__main__":
     print(f"Tu contraseña generada es: {generacion_contrasena()}")
