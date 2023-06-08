@@ -7,23 +7,22 @@ No hay uno más importante que otro.
 Expresión balanceada: { [ a * ( c + d ) ] - 5 }
 Expresión no balanceada: { a * ( c + d ) ] - 5 }"""
 
-
-import re
-
-caracter_apertura = ["{", "[", "("]
-caracter_cierre = ["}", "]", ")"]
-
 balanceada_expresion = "{ [ a * ( c + d ) ] - 5 }"
 no_balanceada_expresion = "{ a * ( c + d ) ] - 5 }"
 
-pila = []
 
-for caracter in no_balanceada_expresion:
-    if caracter in caracter_apertura:
-        pila.append(caracter)
-    if caracter in caracter_cierre:
-        if len(pila) == 0:
-            print("La expresión no está balanceada porque tiene un caracter de cierre antes de uno de apertura.")
-        if len(pila) != 0:
-            ultimo_caracter = pila.pop()
-            if 
+def esta_balanceada(expresion: str):
+    pila = []
+    delimitadores = {"(": ")", "{": "}", "[": "]"}
+    for caracter in expresion:
+        if caracter in delimitadores.keys():
+            pila.append(caracter)
+        elif caracter in delimitadores.values():
+            if not pila or delimitadores[pila.pop()] != caracter:
+                return False
+    return True
+
+
+if __name__ == "__main__":
+    print(esta_balanceada(balanceada_expresion))
+    print(esta_balanceada(no_balanceada_expresion))
