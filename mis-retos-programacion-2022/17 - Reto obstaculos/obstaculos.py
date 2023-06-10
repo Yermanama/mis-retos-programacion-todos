@@ -14,31 +14,32 @@ carrera de obstáculos.
 - La función retornará un Boolean que indique si ha superado la carrera.
 Para ello tiene que realizar la opción correcta en cada tramo de la pista.
 """
-from collections import defaultdict
-pista1 = "_|_|_|_"
-atleta1 = ["run", "jump", "run", "jump", "run"]
-
-pista2 = "_|_|_|_"
-atleta2 = ["run", "run", "jump", "run","run", "jump", "run"]
-
-def ha_superado(obstaculos: str, atleta: str): 
+def ha_superado(obstaculos: str, atleta: list): 
     obstaculos = [obstaculo for obstaculo in obstaculos]
-    diccionario = defaultdict(list)
+    diccionario = {}
     for obstaculo, accion in zip(obstaculos, atleta):
+        if obstaculo not in diccionario:
+            diccionario[obstaculo] = []
         diccionario[obstaculo].append(accion)
+    nuevo_diccionario = {}
     for clave, valor in diccionario.items():
-        if clave == "_" and valor == "jump":
-            clave == "x"
-        elif clave == "|" and valor == "run":
-            clave == "/"
-        elif clave == "_" and valor == "run":
-            pass
-        elif clave == "_" and valor == "jump":
-            pass
-    print(diccionario.keys())
-    if "/" in diccionario.keys() or "x" in diccionario.keys():
+        if clave == "_" and "jump" in valor:
+            nuevo_diccionario["x"] = valor
+        elif clave == "|" and "run" in valor:
+            nuevo_diccionario["/"] = valor
+        elif clave == "_" and "run" in valor:
+            nuevo_diccionario["_"] = valor
+        elif clave == "_" and "jump" in valor:
+            nuevo_diccionario["_"] = valor
+    print(nuevo_diccionario.keys())
+    if "/" in nuevo_diccionario.keys() or "x" in nuevo_diccionario.keys():
         return False
     else: return True
 
+pista1 = "_|_|_|_"
+atleta1 = ["run", "jump", "run", "jump", "run"]
 print(ha_superado(pista1, atleta1))
+
+pista2 = "_|_|_|_"
+atleta2 = ["run", "run", "jump", "run","run", "jump", "run"]
 print(ha_superado(pista2, atleta2))
