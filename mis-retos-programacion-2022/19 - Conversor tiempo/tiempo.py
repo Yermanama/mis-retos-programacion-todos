@@ -9,6 +9,6 @@ def convertir_milisegundos(dias: int, horas: int, minutos: int, segundos: int) -
     minutos_milisegundos = minutos * 60 * 1000
     segundos_milisegundos = segundos * 1000
     milisegundos: int = dias_milisegundos + horas_milisegundos + minutos_milisegundos + segundos_milisegundos
-    return milisegundos
+    return f"Milisegundos : {milisegundos}"
 
 print(convertir_milisegundos(12,12,12,12))
